@@ -14,30 +14,20 @@
             <th><b>Age</b></th>
             <th><b>Bio</b></th>
         </tr>
+        {% for pet in pets %}
         <tr>
-            <th><img height="100" src="{{url_for('static', filename='avatar-nelly.jpg')}}" alt="avatar-nelly"></th>
-            <th>Nelly</th>
-            <th>5 weeks</th>
-            <th>I am a tiny kitten rescued by the good people at Paws Rescue Center. I love squeaky toys and cuddle.</th>
+            <th>
+                <img
+                    height="100"
+                    src="{{url_for('static', filename='avatar-' + pet.name.lower() + '.jpg')}}"
+                    alt="avatar-{{pet.name.lower()}}"
+                >
+            </th>
+            <th>{{pet.name}}</th>
+            <th>{{pet.age}}</th>
+            <th>{{pet.bio}}</th>
         </tr>
-        <tr>
-            <th><img height="100" src="{{url_for('static', filename='avatar-yoda.jpg')}}" alt="avatar-yoda"></th>
-            <th>Yoda</th>
-            <th>8 months</th>
-            <th>I am a handsome gentle-cat. I love having my sunglasses on most of the time.</th>
-        </tr>
-        <tr>
-            <th><img height="100" src="{{url_for('static', filename='avatar-basker.jpg')}}" alt="avatar-basker"></th>
-            <th>Basker</th>
-            <th>1 year</th>
-            <th>I love barking. But, I love my friends more.</th>
-        </tr>
-        <tr>
-            <th><img height="100" src="{{url_for('static', filename='avatar-milo.jpg')}}" alt="avatar-milo"></th>
-            <th>Milo</th>
-            <th>5 years</th>
-            <th>Probably napping.</th>
-        </tr>
+        {% endfor %}
     </table>
 </body>
 </html>
