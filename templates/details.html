@@ -1,10 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <title>{{pet.name}} - Paws Rescue Center</title>
-    <link rel="stylesheet" href="{{url_for('static', filename='style.css')}}" />
-</head>
+{% extends "base.html" %}
+
+{% block title %}
+{{pet.name}}
+{% endblock %}
+
+{% block content %}
 <body style="margin: 2%;">
     <div style="display: flex; flex-direction: row;">
         <image
@@ -19,4 +19,4 @@
         </div>
     </div>
 </body>
-</html>
+{% endblock %}
