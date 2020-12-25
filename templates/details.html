@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>{{pet.name}} - Paws Rescue Center</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='style.css')}}" />
+</head>
+<body>
+    <div style="display: flex; flex-direction: row;">
+        <image
+            height="500"
+            src="{{url_for('static', filename='avatar-' + pet.name.lower() + '.jpg')}}"
+            alt="avatar-{{pet.name.lower()}}"
+        >
+        <div style="margin: 1rem;">
+            <h1>{{pet.name}}</h1>
+            <p><b>Age: </b>{{pet.age}}</p>
+            <p><b>Bio: </b>{{pet.bio}}</p>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,5 +1,5 @@
 # Import Flask module from flask package
-from flask import Flask, render_template
+from flask import Flask, render_template, abort
 
 
 # Create a WSGI application object
@@ -43,6 +43,14 @@ def home():
 @app.route("/about")
 def about():
     return render_template("about.html")
+
+@app.route("/details/<int:pet_id>")
+def details(pet_id):
+    pet = next((pet for pet in pets if pet["id"] == pet_id), None)
+    if pet is None:
+        abort(404, description="No pet was found with the given ID: " + str(pet_id))
+    return render_template("details.html", pet=pets[pet_id])
+    
 
 
 # Run the application in main
