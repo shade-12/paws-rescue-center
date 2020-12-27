@@ -6,29 +6,45 @@ Sign Up
 
 {% block content %}
 <body>
-    <form action="{{url_for('signup')}}" method="POST">
-        <!-- Full Name Field -->
-        {{ form.full_name.label }}: <br>
-        {{ form.full_name }}
-        <br>
-        <!-- Email Field -->
-        {{ form.email.label }}: <br>
-        {{ form.email }}
-        <br>
-        <!-- Password Field -->
-        {{ form.password.label }}<br>
-        {{ form.password }}
-        <br>
-        <!-- Confirm Password Field -->
-        {{ form.confirm_password.label }}<br>
-        {{ form.confirm_password }}
-        <br>
-        <!-- Hidden CSRF Token Field -->
-        {{ form.csrf_token }}
-        <!-- Submit Button -->
-        {{ form.submit }}
-    </form>
-
+    {% if success %}
+        Successfully signed up
+    {% else %}
+        <form action="{{url_for('signup')}}" method="POST">
+            <!-- Full Name Field -->
+            {{ form.full_name.label }}: <br>
+            {{ form.full_name }}
+            {% if "full_name" in errors %}
+                <br> <p style="color: red;">{{ ', '.join(errors['full_name']) }}</p>
+            {% endif %}
+            <br>
+            <!-- Email Field -->
+            {{ form.email.label }}: <br>
+            {{ form.email }}
+            {% if "email" in errors %}
+                <br> <p style="color: red;">{{ ', '.join(errors['email']) }}</p>
+            {% endif %}
+            <br>
+            <!-- Password Field -->
+            {{ form.password.label }}<br>
+            {{ form.password }}
+            {% if "password" in errors %}
+                <br> <p style="color: red;">{{ ', '.join(errors['password']) }}</p>
+            {% endif %}
+            <br>
+            <!-- Confirm Password Field -->
+            {{ form.confirm_password.label }}<br>
+            {{ form.confirm_password }}
+            {% if "confirm_password" in errors %}
+                <br> <p style="color: red;">{{ ', '.join(errors['confirm_passwor']) }}</p>
+            {% endif %}
+            <br>
+            <!-- Hidden CSRF Token Field -->
+            {{ form.csrf_token }}
+            <!-- Submit Button -->
+            {{ form.submit }}
+        </form>
+    
     <hr>
+    {% endif %}
 </body>
 {% endblock %}

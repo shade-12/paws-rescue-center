@@ -37,6 +37,16 @@ pets = [
     }
 ]
 
+"""Information regarding the Users in the System."""
+users = [
+    {
+        "id": 1,
+        "full_name": "Pet Rescue Team",
+        "email": "team@pawsrescue.co",
+        "password": "adminpass"
+    },
+]
+
 
 # Assign URL route for each view function
 @app.route("/")
@@ -58,16 +68,20 @@ def pet_details(pet_id):
 def signup():
     form = SignupForm()
 
-    if form.is_submitted():
-        print("Submitted.")
-
-    if form.validate():
-        print("Valid.")
-
     if form.validate_on_submit():
-        print("Submitted and valid.")
+        new_user = {}
+        new_user['id'] = users[-1]['id'] + 1
+        new_user['full_name'] = form.full_name.data
+        new_user['email'] = form.email.data
+        new_user['password'] = form.password.data
+        print(new_user)
+        users.append(new_user)
+        return render_template("signup.html", success=True)
+    elif form.errors:
+        print(form.errors)
+        return render_template("signup.html", form=form, errors=form.errors, success=False)
         
-    return render_template("signup.html", form=form)
+    return render_template("signup.html", form=form, success=False)
 
 
 # Run the application in main
