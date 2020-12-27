@@ -6,6 +6,9 @@ Sign Up
 
 {% block content %}
 <body>
+    <!-- Title -->
+    <h1>Sign Up</h1>
+
     {% if success %}
         Successfully signed up
     {% else %}
@@ -14,28 +17,28 @@ Sign Up
             {{ form.full_name.label }}: <br>
             {{ form.full_name }}
             {% if "full_name" in errors %}
-                <br> <p style="color: red;">{{ ', '.join(errors['full_name']) }}</p>
+                <br> <b style="color: tomato;">{{ ', '.join(errors['full_name']) }}</b>
             {% endif %}
             <br>
             <!-- Email Field -->
             {{ form.email.label }}: <br>
             {{ form.email }}
             {% if "email" in errors %}
-                <br> <p style="color: red;">{{ ', '.join(errors['email']) }}</p>
+                <br> <b style="color: tomato;">{{ ', '.join(errors['email']) }}</b>
             {% endif %}
             <br>
             <!-- Password Field -->
             {{ form.password.label }}<br>
             {{ form.password }}
             {% if "password" in errors %}
-                <br> <p style="color: red;">{{ ', '.join(errors['password']) }}</p>
+                <br> <b style="color: tomato;">{{ ', '.join(errors['password']) }}</b>
             {% endif %}
             <br>
             <!-- Confirm Password Field -->
             {{ form.confirm_password.label }}<br>
             {{ form.confirm_password }}
             {% if "confirm_password" in errors %}
-                <br> <p style="color: red;">{{ ', '.join(errors['confirm_passwor']) }}</p>
+                <br> <b style="color: tomato;">{{ ', '.join(errors['confirm_passwor']) }}</b>
             {% endif %}
             <br>
             <!-- Hidden CSRF Token Field -->

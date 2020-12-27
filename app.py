@@ -69,13 +69,14 @@ def signup():
     form = SignupForm()
 
     if form.validate_on_submit():
-        new_user = {}
-        new_user['id'] = users[-1]['id'] + 1
-        new_user['full_name'] = form.full_name.data
-        new_user['email'] = form.email.data
-        new_user['password'] = form.password.data
-        print(new_user)
+        new_user = {
+            "id": users[-1]['id'] + 1,
+            "full_name": form.full_name.data,
+            "email": form.email.data,
+            "password": form.password.data
+        }
         users.append(new_user)
+        print(users)
         return render_template("signup.html", success=True)
     elif form.errors:
         print(form.errors)
