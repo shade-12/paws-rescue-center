@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}
+Login
+{% endblock %}
+
+{% block content %}
+<body>
+    <form action="{{url_for('login')}}" method="POST">
+        <!-- Email Field -->
+        {{ form.email.label }}: <br>
+        {{ form.email }}
+        <br>
+        <!-- Password Field -->
+        {{ form.password.label }}<br>
+        {{ form.password }}
+        <br>
+        <!-- Hidden CSRF Token Field -->
+        {{ form.csrf_token }}
+        <!-- Submit Button -->
+        {{ form.submit }}
+    </form>
+
+    <hr>
+</body>
+{% endblock %}

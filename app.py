@@ -1,9 +1,12 @@
 # Import Flask module from flask package
 from flask import Flask, render_template, abort
+from forms import SignupForm
 
 
 # Create a WSGI application object
 app = Flask(__name__)
+
+app.config['SECRET_KEY'] = 'dfewfew123213rwdsgert34tgfd1234trgf'
 
 
 """Information regarding the Pets in the System."""
@@ -50,7 +53,21 @@ def pet_details(pet_id):
     if pet is None:
         abort(404, description="No pet was found with the given ID: " + str(pet_id))
     return render_template("details.html", pet=pet)
-    
+
+@app.route("/signup", methods=["GET", "POST"])
+def signup():
+    form = SignupForm()
+
+    if form.is_submitted():
+        print("Submitted.")
+
+    if form.validate():
+        print("Valid.")
+
+    if form.validate_on_submit():
+        print("Submitted and valid.")
+        
+    return render_template("signup.html", form=form)
 
 
 # Run the application in main
