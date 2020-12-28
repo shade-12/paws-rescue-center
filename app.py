@@ -85,7 +85,7 @@ def pet_details(pet_id):
             db.session.close()
     return render_template("details.html", pet=pet, form=form)
 
-@app.route("/delete/<int:pet_id>", methods=["DELETE"])
+@app.route("/delete/<int:pet_id>")
 def delete_pet(pet_id):
     pet = Pet.query.get(pet_id)
     if pet is None:

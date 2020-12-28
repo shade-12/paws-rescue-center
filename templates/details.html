@@ -7,20 +7,22 @@
 {% block content %}
 <body style="margin: 2%;">
     <div style="display: flex; flex-direction: row;">
-        <image
-            height="500"
-            src="{{url_for('static', filename='avatar-' + pet.name.lower() + '.jpg')}}"
-            alt="avatar-{{pet.name.lower()}}"
-        >
-        <br>
-        <button
-            style="color: tomato;"
-            onclick="location.href='{{url_for('delete_pet', pet_id = pet.id)}}'"
-        >
-            Delete Pet
-        </button>
-        <!-- Pet Info -->
         <div>
+            <image
+                height="500"
+                src="{{url_for('static', filename='avatar-' + pet.name.lower() + '.jpg')}}"
+                alt="avatar-{{pet.name.lower()}}"
+            >
+            <br>
+            <button
+                style="color: tomato;"
+                onclick="location.href='{{url_for('delete_pet', pet_id = pet.id)}}'"
+            >
+                Delete Pet
+            </button>
+        </div>
+        <!-- Pet Info -->
+        <div style="margin: 2rem;">
             <div style="margin: 1rem;">
                 <h1>{{pet.name}}</h1>
                 <p><b>Age: </b>{{pet.age}}</p>
@@ -40,19 +42,19 @@
                     <br>
                 {% endif %}
                 <!--  -->
-                <form action="{{url_for('pet_details')}}" method="POST">
+                <form action="{{url_for('pet_details', pet_id=pet.id)}}" method="POST">
                     <!-- Name Field -->
                     {{ form.name.label }}: <br>
                     {{ form.name(value=pet.name) }}
-                    <br>
+                    <br><br>
                     <!-- Age Field -->
-                    {{ form.age.label }}<br>
+                    {{ form.age.label }}:<br>
                     {{ form.age(value=pet.age) }}
-                    <br>
+                    <br><br>
                     <!-- Bio Field -->
-                    {{ form.bio.label }}<br>
+                    {{ form.bio.label }}:<br>
                     {{ form.bio(value=pet.bio) }}
-                    <br>
+                    <br><br>
                     <!-- Hidden CSRF Token Field -->
                     {{ form.csrf_token }}
                     <!-- Submit Button -->
