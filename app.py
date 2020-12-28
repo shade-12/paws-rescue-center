@@ -94,13 +94,20 @@ def signup():
     form = SignupForm()
 
     if form.validate_on_submit():
-        new_user = {
-            "id": users[-1]['id'] + 1,
-            "full_name": form.full_name.data,
-            "email": form.email.data,
-            "password": form.password.data
-        }
-        users.append(new_user)
+        new_user = User(
+            full_name=form.full_name.data,
+            email=form.email.data,
+            password=form.password.data
+        )
+        db.session.add(new_user)
+        try:
+            db.session.commit()
+        except Exception as e:
+            print(e)
+            db.session.rollback()
+            return render_template("signup.html", success=False, message="This email already exists in the system. Please log in instead.")
+        finally:
+            db.session.close()
         return render_template("signup.html", success=True)
     elif form.errors:
         print(form.errors)

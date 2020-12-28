@@ -12,6 +12,9 @@ Sign Up
     {% if success %}
         Successfully signed up
     {% else %}
+        {% if message %}
+        <b style="color: tomato;">{{ message }}</b>
+        {% endif %}
         <form action="{{url_for('signup')}}" method="POST">
             <!-- Full Name Field -->
             {{ form.full_name.label }}: <br>
