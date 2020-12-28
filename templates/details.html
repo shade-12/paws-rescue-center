@@ -12,10 +12,53 @@
             src="{{url_for('static', filename='avatar-' + pet.name.lower() + '.jpg')}}"
             alt="avatar-{{pet.name.lower()}}"
         >
-        <div style="margin: 1rem;">
-            <h1>{{pet.name}}</h1>
-            <p><b>Age: </b>{{pet.age}}</p>
-            <p><b>Bio: </b>{{pet.bio}}</p>
+        <br>
+        <button
+            style="color: tomato;"
+            onclick="location.href='{{url_for('delete_pet', pet_id = pet.id)}}'"
+        >
+            Delete Pet
+        </button>
+        <!-- Pet Info -->
+        <div>
+            <div style="margin: 1rem;">
+                <h1>{{pet.name}}</h1>
+                <p><b>Age: </b>{{pet.age}}</p>
+                <p><b>Bio: </b>{{pet.bio}}</p>
+            </div>
+
+            <hr>
+
+            <!-- Edit Form -->
+            <div style="margin: 1rem;">
+                <h1>Edit Pet</h1>
+                <!-- Error Message  -->
+                {% if message %}
+                    <span style="background-color:tomato">
+                    {{ message }}
+                    <span>
+                    <br>
+                {% endif %}
+                <!--  -->
+                <form action="{{url_for('pet_details')}}" method="POST">
+                    <!-- Name Field -->
+                    {{ form.name.label }}: <br>
+                    {{ form.name(value=pet.name) }}
+                    <br>
+                    <!-- Age Field -->
+                    {{ form.age.label }}<br>
+                    {{ form.age(value=pet.age) }}
+                    <br>
+                    <!-- Bio Field -->
+                    {{ form.bio.label }}<br>
+                    {{ form.bio(value=pet.bio) }}
+                    <br>
+                    <!-- Hidden CSRF Token Field -->
+                    {{ form.csrf_token }}
+                    <!-- Submit Button -->
+                    {{ form.submit }}
+                </form>
+            </div>
         </div>
     </div>
 </body>

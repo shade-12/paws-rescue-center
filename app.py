@@ -1,6 +1,6 @@
 # Import Flask module from flask package
 from flask import Flask, render_template, abort
-from forms import SignupForm, LoginForm
+from forms import SignupForm, LoginForm, EditPetForm
 from flask import session, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 
@@ -65,12 +65,37 @@ def home():
 def about():
     return render_template("about.html")
 
-@app.route("/details/<int:pet_id>")
+@app.route("/details/<int:pet_id>", methods=["GET", "POST"])
 def pet_details(pet_id):
+    form = EditPetForm()
     pet = Pet.query.get(pet_id)
     if pet is None:
         abort(404, description="No pet was found with the given ID: " + str(pet_id))
-    return render_template("details.html", pet=pet)
+    if form.validate_on_submit():
+        pet.name = form.name.data
+        pet.age = form.age.data
+        pet.bio = form.age.data
+        try:
+            db.session.commit()
+        except Exception as e:
+            print(e)
+            db.session.rollback()
+            return render_template("details.html", pet=pet, form=form, message="A pet with this name already exists. Please choose another name.")
+        finally:
+            db.session.close()
+    return render_template("details.html", pet=pet, form=form)
+
+@app.route("/delete/<int:pet_id>", methods=["DELETE"])
+def delete_pet(pet_id):
+    pet = Pet.query.get(pet_id)
+    if pet is None:
+        abort(404, description="No pet was found with the given ID: " + str(pet_id))
+    db.session.delete(pet)  # Delete pet from db session
+    try:
+        db.session.commit()
+    except Exception as e:
+        db.session.rollback()
+    return redirect(url_for('home', _scheme='https', _external=True))
 
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
