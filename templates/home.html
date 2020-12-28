@@ -17,7 +17,7 @@ Home
         {% for pet in pets %}
         <tr>
             <th>
-                <a href="{{url_for('pet_details', pet_id=pet['id'])}}">
+                <a href="{{url_for('pet_details', pet_id=pet.id)}}">
                     <img
                         height="100"
                         src="{{url_for('static', filename='avatar-' + pet.name.lower() + '.jpg')}}"

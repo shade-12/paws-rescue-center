@@ -34,9 +34,18 @@ class User(db.Model):
 db.create_all()
 
 
-# Create "team" user and add it to session
-team = User(full_name = "Pet Rescue Team", email = "team@petrescue.co", password = "adminpass")
+# Add seed data into database
+team = User(full_name="Pet Rescue Team", email="team@petrescue.co", password="adminpass")
+nelly = Pet(name="Nelly", age="5 weeks", bio="I am a tiny kitten rescued by the good people at Paws Rescue Center. I love squeaky toys and cuddles.")
+yoda = Pet(name="Yoda", age="8 months", bio="I am a handsome gentle-cat. I love having my sunglasses on most of the time.")
+basker = Pet(name="Basker", age="1 year", bio="I love barking. But, I love my friends more.")
+milo = Pet(name="Milo", age="5 years", bio="Probably napping.")
+
 db.session.add(team)
+db.session.add(nelly)
+db.session.add(yoda)
+db.session.add(basker)
+db.session.add(milo)
 
 # Commit changes in the session
 try:
@@ -47,39 +56,10 @@ finally:
     db.session.close()
 
 
-"""Information regarding the Pets in the System."""
-pets = [
-    {
-        "id": 1, 
-        "name": "Nelly", 
-        "age": "5 weeks", 
-        "bio": "I am a tiny kitten rescued by the good people at Paws Rescue Center. I love squeaky toys and cuddles."
-    },
-    {
-        "id": 2, 
-        "name": "Yoda", 
-        "age": "8 months", 
-        "bio": "I am a handsome gentle-cat. I love having my sunglasses on most of the time."
-    },
-    {
-        "id": 3, 
-        "name": "Basker", 
-        "age": "1 year", 
-        "bio": "I love barking. But, I love my friends more."
-    },
-    {
-        "id": 4, 
-        "name": "Milo", 
-        "age": "5 years", 
-        "bio": "Probably napping."
-    }
-]
-
-
 # Assign URL route for each view function
 @app.route("/")
 def home():
-    return render_template("home.html", pets=pets)
+    return render_template("home.html", pets=Pet.query.all())
 
 @app.route("/about")
 def about():
@@ -87,7 +67,7 @@ def about():
 
 @app.route("/details/<int:pet_id>")
 def pet_details(pet_id):
-    pet = next((pet for pet in pets if pet["id"] == pet_id), None)
+    pet = Pet.query.get(pet_id)
     if pet is None:
         abort(404, description="No pet was found with the given ID: " + str(pet_id))
     return render_template("details.html", pet=pet)
