@@ -6,21 +6,37 @@ Login
 
 {% block content %}
 <body>
-    <form action="{{url_for('login')}}" method="POST">
-        <!-- Email Field -->
-        {{ form.email.label }}: <br>
-        {{ form.email }}
-        <br>
-        <!-- Password Field -->
-        {{ form.password.label }}<br>
-        {{ form.password }}
-        <br>
-        <!-- Hidden CSRF Token Field -->
-        {{ form.csrf_token }}
-        <!-- Submit Button -->
-        {{ form.submit }}
-    </form>
+    <!-- Title -->
+    <h1>Login</h1>
 
-    <hr>
+    {% if success %}
+        Successfully logged in
+    {% else %}
+        {% if message %}
+            <b style="color: tomato;">{{ message }}</b>
+        {% endif %}
+        <form action="{{url_for('login')}}" method="POST">
+            <!-- Email Field -->
+            {{ form.email.label }}: <br>
+            {{ form.email }}
+            {% if "email" in errors %}
+                <br> <b style="color: tomato;">{{ ', '.join(errors['email']) }}</b>
+            {% endif %}
+            <br>
+            <!-- Password Field -->
+            {{ form.password.label }}<br>
+            {{ form.password }}
+            {% if "password" in errors %}
+                <br> <b style="color: tomato;">{{ ', '.join(errors['password']) }}</b>
+            {% endif %}
+            <br>
+            <!-- Hidden CSRF Token Field -->
+            {{ form.csrf_token }}
+            <!-- Submit Button -->
+            {{ form.submit }}
+        </form>
+
+        <hr>
+    {% endif %}
 </body>
 {% endblock %}

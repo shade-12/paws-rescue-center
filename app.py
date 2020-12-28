@@ -1,6 +1,7 @@
 # Import Flask module from flask package
 from flask import Flask, render_template, abort
-from forms import SignupForm
+from forms import SignupForm, LoginForm
+from flask import session, redirect, url_for
 
 
 # Create a WSGI application object
@@ -44,7 +45,7 @@ users = [
         "full_name": "Pet Rescue Team",
         "email": "team@pawsrescue.co",
         "password": "adminpass"
-    },
+    }
 ]
 
 
@@ -76,13 +77,31 @@ def signup():
             "password": form.password.data
         }
         users.append(new_user)
-        print(users)
         return render_template("signup.html", success=True)
     elif form.errors:
         print(form.errors)
         return render_template("signup.html", form=form, errors=form.errors, success=False)
         
     return render_template("signup.html", form=form, success=False)
+
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    form = LoginForm()
+
+    if form.validate_on_submit():
+        user = next((user for user in users if user['email'] == form.email.data and user['password'] == form.password.data), None)
+        if user is None:
+            return render_template("login.html", message="Wrong credentials. Please try again.")
+        else:
+            session['user'] = user
+            return render_template("login.html", success=True)
+    return render_template("login.html", form=form)
+
+@app.route("/logout")
+def logout():
+    if "user" in session:
+        session.pop("user")
+    return redirect(url_for('home', _scheme='https', _external=True))
 
 
 # Run the application in main
