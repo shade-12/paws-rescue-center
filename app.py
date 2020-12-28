@@ -2,12 +2,36 @@
 from flask import Flask, render_template, abort
 from forms import SignupForm, LoginForm
 from flask import session, redirect, url_for
+from flask_sqlalchemy import SQLAlchemy
 
 
 # Create a WSGI application object
 app = Flask(__name__)
-
 app.config['SECRET_KEY'] = 'dfewfew123213rwdsgert34tgfd1234trgf'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///paws.db'
+
+# Initialize database connection
+db = SQLAlchemy(app)
+
+# Database models
+""" Model for Pets. """
+class Pet(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50), unique=True, nullable=False)
+    age = db.Column(db.String(50), nullable=False)
+    bio = db.Column(db.String(200), nullable=False)
+    posted_by = db.Column(db.String(100), db.ForeignKey('user.id'), nullable=False)
+
+""" Model for Users. """
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    full_name = db.Column(db.String(100), nullable=False)
+    email = db.Column(db.String(50), unique=True, nullable=False)
+    password = db.Column(db.String(50), nullable=False)
+    pets = db.relationship('Pet', backref="user")
+
+# Create tables associated with models in db
+db.create_all()
 
 
 """Information regarding the Pets in the System."""
