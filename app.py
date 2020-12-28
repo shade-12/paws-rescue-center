@@ -34,6 +34,19 @@ class User(db.Model):
 db.create_all()
 
 
+# Create "team" user and add it to session
+team = User(full_name = "Pet Rescue Team", email = "team@petrescue.co", password = "adminpass")
+db.session.add(team)
+
+# Commit changes in the session
+try:
+    db.session.commit()
+except Exception as e: 
+    db.session.rollback()
+finally:
+    db.session.close()
+
+
 """Information regarding the Pets in the System."""
 pets = [
     {
@@ -59,16 +72,6 @@ pets = [
         "name": "Milo", 
         "age": "5 years", 
         "bio": "Probably napping."
-    }
-]
-
-"""Information regarding the Users in the System."""
-users = [
-    {
-        "id": 1,
-        "full_name": "Pet Rescue Team",
-        "email": "team@pawsrescue.co",
-        "password": "adminpass"
     }
 ]
 
@@ -120,11 +123,11 @@ def login():
     form = LoginForm()
 
     if form.validate_on_submit():
-        user = next((user for user in users if user['email'] == form.email.data and user['password'] == form.password.data), None)
+        user = User.query.filter_by(email=form.email.data, password=form.password.data).first()
         if user is None:
             return render_template("login.html", message="Wrong credentials. Please try again.")
         else:
-            session['user'] = user
+            session['user'] = user.id
             return render_template("login.html", success=True)
     return render_template("login.html", form=form)
 
