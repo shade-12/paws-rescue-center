@@ -36,10 +36,10 @@ db.create_all()
 
 # Add seed data into database
 team = User(full_name="Pet Rescue Team", email="team@petrescue.co", password="adminpass")
-nelly = Pet(name="Nelly", age="5 weeks", bio="I am a tiny kitten rescued by the good people at Paws Rescue Center. I love squeaky toys and cuddles.")
-yoda = Pet(name="Yoda", age="8 months", bio="I am a handsome gentle-cat. I love having my sunglasses on most of the time.")
-basker = Pet(name="Basker", age="1 year", bio="I love barking. But, I love my friends more.")
-milo = Pet(name="Milo", age="5 years", bio="Probably napping.")
+nelly = Pet(name="Nelly", age="5 weeks", bio="I am a tiny kitten rescued by the good people at Paws Rescue Center. I love squeaky toys and cuddles.", posted_by=0)
+yoda = Pet(name="Yoda", age="8 months", bio="I am a handsome gentle-cat. I love having my sunglasses on most of the time.", posted_by=0)
+basker = Pet(name="Basker", age="1 year", bio="I love barking. But, I love my friends more.", posted_by=0)
+milo = Pet(name="Milo", age="5 years", bio="Probably napping.", posted_by=0)
 
 db.session.add(team)
 db.session.add(nelly)
