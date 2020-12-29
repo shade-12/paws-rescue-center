@@ -2,6 +2,8 @@
 
 A website for Paws Rescue Center, a fictional animal rescue organization built with Flask.
 
+![home-page](https://github.com/shade-12/paws-rescue-center/blob/main/assets/home.png?raw=true)
+![details-page](https://github.com/shade-12/paws-rescue-center/blob/main/assets/details.png?raw=true)
 
 ### Project Setup
 
